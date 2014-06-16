@@ -19,7 +19,7 @@ unless distro
 end
 
 version = "1.9.2"
-release = ENV['GO_PIPELINE_COUNTER'] || ENV['RELEASE'] || 1
+release = Time.now.utc.strftime('%Y%m%d%H%M%S')
 name = 'phantomjs'
 description_string = %Q{PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.}
 jailed_root = File.expand_path('../jailed-root', __FILE__)
