@@ -89,3 +89,6 @@ task default: [:clean, :init, :download, :package, :dist]
 
 desc "build 2.0"
 task build_20: [:clean, :init, 'from_source:install_dependencies', 'from_source:clone', 'from_source:build', 'from_source:package', 'from_source:dist']
+
+desc 'build all'
+task build_all: [:clean, :init, :download, :package, :dist, 'from_source:install_dependencies', 'from_source:clone', 'from_source:build', 'from_source:package', 'from_source:dist']
