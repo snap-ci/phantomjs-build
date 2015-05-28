@@ -23,7 +23,7 @@ release = Time.now.utc.strftime('%Y%m%d%H%M%S')
 name = 'phantomjs'
 description_string = %Q{PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.}
 jailed_root = File.expand_path('../jailed-root', __FILE__)
-phantomjs_src_folder='phantomjs'
+phantomjs_src_folder = File.expand_path('../phantomjs', __FILE__)
 
 CLEAN.include jailed_root
 CLEAN.include 'downloads'
@@ -46,7 +46,7 @@ task :download do
 end
 
 task :package do
-  sh("tar jxf downloads/phantomjs-#{version}-linux-x86_64.tar.bz2 && mv phantomjs-#{version}-linux-x86_64/* #{jailed_root}/opt/local/phantomjs && rm -rf phantomjs-1.8.1-linux-x86_64")
+  sh("tar jxf downloads/phantomjs-#{version}-linux-x86_64.tar.bz2 && mv phantomjs-#{version}-linux-x86_64/* #{jailed_root}/opt/local/phantomjs && rm -rf phantomjs-#{version}-linux-x86_64")
   ln_sf("../../opt/local/phantomjs/bin/phantomjs", "#{jailed_root}/usr/bin/phantomjs")
 end
 
@@ -72,13 +72,14 @@ namespace :from_source do
   end
 
   task :package do
-    sh %Q{mv #{phantomjs_src_folder}/bin/phantomjs #{File.join(jailed_root, '/opt/local/phantomjs')}}
+    mkdir_p File.join(jailed_root, '/opt/local/phantomjs/bin')
+    sh %Q{ mv #{phantomjs_src_folder}/bin/phantomjs #{File.join(jailed_root, '/opt/local/phantomjs/bin')}}
     ln_sf("../../opt/local/phantomjs/bin/phantomjs", "#{jailed_root}/usr/bin/phantomjs")
   end
 
   task :dist do
     cd "pkg" do
-      sh(%Q{bundle exec fpm -s dir -t #{distro} --name #{name} -a x86_64 --version 2.0 -C #{jailed_root} --verbose #{fpm_opts} --maintainer snap-ci@thoughtworks.com --vendor snap-ci@thoughtworks.com --url http://snap-ci.com --description "#{description_string}" --iteration #{release} --license 'https://github.com/ariya/phantomjs/blob/master/LICENSE.BSD' .})
+      sh(%Q{bundle exec fpm -s dir -t #{distro} --name phantomjs_2 -a x86_64 --version 2.0 -C #{jailed_root} --verbose #{fpm_opts} --maintainer snap-ci@thoughtworks.com --vendor snap-ci@thoughtworks.com --url http://snap-ci.com --description "#{description_string}" --iteration #{release} --license 'https://github.com/ariya/phantomjs/blob/master/LICENSE.BSD' .})
     end
   end
 
