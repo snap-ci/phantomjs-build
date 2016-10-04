@@ -39,7 +39,7 @@ end
 
 task :download do
   cd 'downloads' do
-    sh("curl --fail http://phantomjs.googlecode.com/files/phantomjs-#{version}-linux-x86_64.tar.bz2 > phantomjs-#{version}-linux-x86_64.tar.bz2 2>/dev/null")
+    sh("curl --fail https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-#{version}-linux-x86_64.tar.bz2 > phantomjs-#{version}-linux-x86_64.tar.bz2 2>/dev/null")
     sh("echo 'c78c4037d98fa893e66fc516214499c58228d2f9  phantomjs-#{version}-linux-x86_64.tar.bz2'    > phantomjs-#{version}-linux-x86_64.tar.bz2.shasum 2>/dev/null")
     sh("sha1sum --status --check phantomjs-#{version}-linux-x86_64.tar.bz2.shasum")
   end
